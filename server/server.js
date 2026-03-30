@@ -4,6 +4,9 @@ require('dotenv').config();
 
 const db = require('./models');
 
+// Import routers
+const applicationRoutes = require('./routes/applicationRoutes');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -14,6 +17,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ message: 'Job Tracker API is running.' });
 });
+
+// Mount routers — every route in applicationRoutes is prefixed with /api/applications
+app.use('/api/applications', applicationRoutes);
 
 //Test DB Connection & Start Server
 sequelize.authenticate()
