@@ -8,6 +8,7 @@ const db = require('./models');
 const applicationRoutes = require('./routes/applicationRoutes');
 const companyRoutes = require('./routes/companyRoutes'); 
 const interviewRoundRoutes = require('./routes/interviewRoundRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 app.use('/api/applications', applicationRoutes);
 app.use('/api/companies', companyRoutes); 
 app.use('/api/interview-rounds', interviewRoundRoutes);
+app.use('/api/contacts', contactRoutes);
 
 //Test DB Connection & Start Server
 sequelize.authenticate()
