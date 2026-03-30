@@ -7,6 +7,7 @@ const db = require('./models');
 // Import routers
 const applicationRoutes = require('./routes/applicationRoutes');
 const companyRoutes = require('./routes/companyRoutes'); 
+const interviewRoundRoutes = require('./routes/interviewRoundRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 // Mount routers — every route in applicationRoutes is prefixed with /api/applications
 app.use('/api/applications', applicationRoutes);
 app.use('/api/companies', companyRoutes); 
+app.use('/api/interview-rounds', interviewRoundRoutes);
 
 //Test DB Connection & Start Server
 sequelize.authenticate()
