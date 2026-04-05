@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./config/database');
 require('dotenv').config();
+const cors = require('cors');
 
 const db = require('./models');
 
@@ -22,6 +23,7 @@ app.get('/', (req, res) => {
 });
 
 // Mount routers — every route in applicationRoutes is prefixed with /api/applications
+app.use(cors({ origin: 'http://localhost:5173' })); 
 app.use('/api/applications', applicationRoutes);
 app.use('/api/companies', companyRoutes); 
 app.use('/api/interview-rounds', interviewRoundRoutes);
