@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/api/interview-rounds';
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/interview-rounds`;
 
 export const getAllRounds = async () => {
   const response = await axios.get(BASE_URL);

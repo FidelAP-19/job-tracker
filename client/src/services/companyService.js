@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3001/api/companies';
+const BASE_URL = `${import.meta.env.VITE_API_URL}/api/companies`;
 
 export const getAllCompanies = async () => {
   const response = await axios.get(BASE_URL);
