@@ -59,56 +59,46 @@ export default function CompaniesFormPage() {
         }
     }
 
-    return(
+    return (
         <div>
-            <h1>{isEditing ? 'Edit Company' : 'New Company'}</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name</label>
-                    <input 
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    />
+          <h1 className="page-title">{isEditing ? 'Edit Company' : 'New Company'}</h1>
+    
+          <div className="card" style={{ maxWidth: '600px' }}>
+            <div className="card-body">
+              {error && <p style={{ color: 'var(--danger-text)', marginBottom: '16px' }}>{error}</p>}
+    
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label className="form-label">Name</label>
+                  <input className="form-input" name="name" value={formData.name} onChange={handleChange} required />
                 </div>
-
-                <div>
-                    <label>Industry</label>
-                    <input 
-                    name="industry"
-                    value={formData.industry}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Industry</label>
+                  <input className="form-input" name="industry" value={formData.industry} onChange={handleChange} />
                 </div>
-
-                <div>
-                    <label>Website</label>
-                    <input 
-                    name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Website</label>
+                  <input className="form-input" name="website" value={formData.website} onChange={handleChange} />
                 </div>
-                <div>
-                    <label>Notes</label>
-                    <textarea 
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Notes</label>
+                  <textarea className="form-textarea" name="notes" value={formData.notes} onChange={handleChange} />
                 </div>
-
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Saving...': isEditing ? 'Update Company' : 'Create Company'}
-                </button>
-                {' | '}
-                <button type="button" onClick={() => navigate("/companies")}>
+    
+                <div className="form-actions">
+                  <button className="btn btn-primary" type="submit" disabled={loading}>
+                    {loading ? 'Saving...' : isEditing ? 'Update Company' : 'Create Company'}
+                  </button>
+                  <button className="btn" type="button" onClick={() => navigate('/companies')}>
                     Cancel
-                </button>
-            </form>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-    )
+      )
 }

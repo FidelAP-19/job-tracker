@@ -25,75 +25,88 @@ export default function CompanyDetailPage() {
     loadCompany()
   }, [id])
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p style={{ color: 'red' }}>{error}</p>
+  if (loading) return <p style={{ color: 'var(--text-secondary)' }}>Loading...</p>
+  if (error) return <p style={{ color: 'var(--danger-text)' }}>{error}</p>
   if (!company) return null
 
   return (
     <div>
-      <button onClick={() => navigate(`/companies`)}>←Back</button>
-      <button onClick={() => navigate(`/companies/${id}/edit`)}>Edit</button>
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '20px' }}>
+        <button className="btn" onClick={() => navigate('/companies')}>← Back</button>
+        <button className="btn" onClick={() => navigate(`/companies/${id}/edit`)}>Edit</button>
+      </div>
 
-      <h1>{company.name}</h1>
-      <p><strong>Industry:</strong> {company.industry}</p>
-      <p><strong>Website:</strong> {company.website}</p>
-      <p><strong>Notes:</strong> {company.notes || 'None'}</p>
+      <h1 className="page-title">{company.name}</h1>
 
-      <hr />
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div className="card-body">
+          <div className="detail-field"><strong>Industry</strong>{company.industry}</div>
+          <div className="detail-field"><strong>Website</strong>{company.website}</div>
+          <div className="detail-field"><strong>Notes</strong>{company.notes || 'None'}</div>
+        </div>
+      </div>
 
-      <h2>Applications</h2>
-      {company.Applications?.length === 0 ? (
-        <p>No Applications are available for {company.name} at this moment</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Role-Title</th>
-              <th>Status</th>
-              <th>Date Applied</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+      <h2 style={{ fontSize: '16px', fontWeight: '500', color: 'var(--text-primary)', marginBottom: '16px' }}>Applications</h2>
+      <div className="card" style={{ marginBottom: '24px' }}>
+        {company.Applications?.length === 0 ? (
+          <div className="card-body">
+            <p style={{ color: 'var(--text-secondary)' }}>No applications for this company.</p>
+          </div>
+        ) : (
+          <table className="app-table">
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Date Applied</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
               {company.Applications?.map((app) => (
                 <tr key={app.id}>
                   <td>{app.role_title}</td>
-                  <td><StatusBadge status = {app.status} /></td>
-                  <td>{app.date_applied ? new Date(app.date_applied).toLocaleDateString() : '-'}</td>
-                  <td><button onClick={() => navigate(`/applications/${app.id}`)}>View</button></td>
+                  <td><StatusBadge status={app.status} /></td>
+                  <td className="td-secondary">{app.date_applied ? new Date(app.date_applied).toLocaleDateString() : '-'}</td>
+                  <td>
+                    <button className="btn" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => navigate(`/applications/${app.id}`)}>View</button>
+                  </td>
                 </tr>
-              ))}  
-          </tbody>
-        </table>
-      )
-    }
-      <hr />
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
-      <h2>Company Contacts</h2>
-      {company.Contacts?.length === 0 ? (
-        <p>No Contacts for this {company.name} at this moment.</p> 
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Role</th>
-              <th>E-mail</th>
-              <th>LinkedIn</th>
-            </tr>
-          </thead>
-          <tbody>
+      <h2 style={{ fontSize: '16px', fontWeight: '500', color: 'var(--text-primary)', marginBottom: '16px' }}>Contacts</h2>
+      <div className="card">
+        {company.Contacts?.length === 0 ? (
+          <div className="card-body">
+            <p style={{ color: 'var(--text-secondary)' }}>No contacts for this company.</p>
+          </div>
+        ) : (
+          <table className="app-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>LinkedIn</th>
+              </tr>
+            </thead>
+            <tbody>
               {company.Contacts?.map((contact) => (
                 <tr key={contact.id}>
                   <td>{contact.name}</td>
-                  <td>{contact.role}</td>
-                  <td>{contact.email}</td>
-                  <td>{contact.linkedin_url || 'N/A'}</td>
+                  <td className="td-secondary">{contact.role}</td>
+                  <td className="td-secondary">{contact.email}</td>
+                  <td className="td-secondary">{contact.linkedin_url || 'N/A'}</td>
                 </tr>
               ))}
-          </tbody>
-        </table>
-      )}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
-  ) 
+  )
   }

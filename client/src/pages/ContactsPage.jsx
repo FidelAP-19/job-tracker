@@ -35,45 +35,51 @@ function ContactsPage() {
       }
     }
 
-    if (loading) return <p>Loading contacts...</p>
-    if (error) return <p>{error}</p>
+    if (loading) return <p style={{ color: 'var(--text-secondary)', padding: '20px' }}>Loading contacts...</p>
+    if (error) return <p style={{ color: 'var(--danger-text)', padding: '20px' }}>{error}</p>
+  
 
 
-  return (
-    <div>
-      <h1>Contacts</h1>
-      <button onClick={() => navigate('/contacts/new')}>
-        + New Contact
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Company-Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contacts.map(c => (
-            <tr key={c.id}>
-              <td>{c.name}</td>
-              <td>{c.role}</td>
-              <td>{c.email}</td>
-              <td>{c.Company?.name}</td>
-              <td>
-                <Link to={`/contacts/${c.id}`}>View</Link>
-                {' | '}
-                <button onClick={() => navigate(`/contacts/${c.id}/edit`)}>Edit</button>
-                {' | '}
-                <button onClick={() => handleDelete(c.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    return (
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          <h1 className="page-title" style={{ margin: 0 }}>Contacts</h1>
+          <button className="btn btn-primary" onClick={() => navigate('/contacts/new')}>
+            + New Contact
+          </button>
+        </div>
+  
+        <div className="card">
+          <table className="app-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contacts.map(c => (
+                <tr key={c.id}>
+                  <td>{c.name}</td>
+                  <td className="td-secondary">{c.role}</td>
+                  <td className="td-secondary">{c.email}</td>
+                  <td className="td-secondary">{c.Company?.name}</td>
+                  <td>
+                    <div style={{ display: 'flex', gap: '6px' }}>
+                      <Link to={`/contacts/${c.id}`} className="btn" style={{ fontSize: '12px', padding: '4px 10px' }}>View</Link>
+                      <button className="btn" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => navigate(`/contacts/${c.id}/edit`)}>Edit</button>
+                      <button className="btn btn-danger" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => handleDelete(c.id)}>Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     )
   }
 

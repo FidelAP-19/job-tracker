@@ -70,83 +70,61 @@ export default function ContactFormPage() {
         }
     }
 
-
-    return(
+    return (
         <div>
-            <h1>{isEditing ? 'Edit Contact' : 'New Contact'}</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name</label>
-                    <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    />
+          <h1 className="page-title">{isEditing ? 'Edit Contact' : 'New Contact'}</h1>
+    
+          <div className="card" style={{ maxWidth: '600px' }}>
+            <div className="card-body">
+              {error && <p style={{ color: 'var(--danger-text)', marginBottom: '16px' }}>{error}</p>}
+    
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label className="form-label">Name</label>
+                  <input className="form-input" name="name" value={formData.name} onChange={handleChange} required />
                 </div>
-
-                <div>
-                    <label>Company</label>
-                    <select 
-                    name="company_id"
-                    value={formData.company_id}
-                    onChange={handleChange}
-                    >
-                        <option value="">-- Select a Company --</option>
-                        {companies.map((c) => (
-                            <option key={c.id} value={c.id}>
-                                {c.name}
-                            </option>
-                        ))}
-                    </select>
-
+    
+                <div className="form-group">
+                  <label className="form-label">Company</label>
+                  <select className="form-select" name="company_id" value={formData.company_id} onChange={handleChange} required>
+                    <option value="">-- Select a Company --</option>
+                    {companies.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
                 </div>
-
-                <div>
-                    <label>Role</label>
-                    <input 
-                    name="role"
-                    value={formData.role}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Role</label>
+                  <input className="form-input" name="role" value={formData.role} onChange={handleChange} />
                 </div>
-
-                <div>
-                    <label>E-mail</label>
-                    <input
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Email</label>
+                  <input className="form-input" name="email" value={formData.email} onChange={handleChange} />
                 </div>
-
-                <div>
-                    <label>LinkedIn</label>
-                    <input
-                    name="linkedin_url"
-                    value={formData.linkedin_url}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">LinkedIn URL</label>
+                  <input className="form-input" name="linkedin_url" value={formData.linkedin_url} onChange={handleChange} />
                 </div>
-
-                <div>
-                    <label>Notes</label>
-                    <textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleChange}
-                    />
+    
+                <div className="form-group">
+                  <label className="form-label">Notes</label>
+                  <textarea className="form-textarea" name="notes" value={formData.notes} onChange={handleChange} />
                 </div>
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Saving..' : isEditing ? 'Update Contact' : 'Create Contact'}
-                </button>
-                {' | '}
-                <button typed="button" onClick={() => navigate(`/contacts`)}>
+    
+                <div className="form-actions">
+                  <button className="btn btn-primary" type="submit" disabled={loading}>
+                    {loading ? 'Saving...' : isEditing ? 'Update Contact' : 'Create Contact'}
+                  </button>
+                  <button className="btn" type="button" onClick={() => navigate('/contacts')}>
                     Cancel
-                </button>
-            </form>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
-    )
+      )
 }

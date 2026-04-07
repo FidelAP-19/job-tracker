@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAllApplications, deleteApplication } from '../services/applicationService'
+import StatusBadge from '../components/StatusBadge'
 
 function ApplicationsPage() {
-  
   const navigate = useNavigate()
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(true)
@@ -35,44 +35,48 @@ function ApplicationsPage() {
     }
   }
 
-  if (loading) return <p>Loading applications...</p>
-  if (error) return <p>{error}</p>
+  if (loading) return <p style={{ color: 'var(--text-secondary)', padding: '20px' }}>Loading applications...</p>
+  if (error) return <p style={{ color: 'var(--danger-text)', padding: '20px' }}>{error}</p>
 
   return (
     <div>
-      <h1>Applications</h1>
-      <Link to="/applications/new">+ Add Application</Link>
-      <button onClick={() => navigate('/applications/new')}>
-        + New Application
-      </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Role</th>
-            <th>Company</th>
-            <th>Status</th>
-            <th>Date Applied</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {applications.map(app => (
-            <tr key={app.id}>
-              <td>{app.role_title}</td>
-              <td>{app.Company?.name || 'N/A'}</td>
-              <td>{app.status}</td>
-              <td>{app.date_applied}</td>
-              <td>
-                <Link to={`/applications/${app.id}`}>View</Link>
-                {' | '}
-                <button onClick={ () => navigate(`/applications/${app.id}/edit`)}>Edit</button>
-                {' | '}
-                <button onClick={() => handleDelete(app.id)}>Delete</button>
-              </td>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h1 className="page-title" style={{ margin: 0 }}>Applications</h1>
+        <button className="btn btn-primary" onClick={() => navigate('/applications/new')}>
+          + New Application
+        </button>
+      </div>
+
+      <div className="card">
+        <table className="app-table">
+          <thead>
+            <tr>
+              <th>Role</th>
+              <th>Company</th>
+              <th>Status</th>
+              <th>Date Applied</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {applications.map(app => (
+              <tr key={app.id}>
+                <td>{app.role_title}</td>
+                <td className="td-secondary">{app.Company?.name || 'N/A'}</td>
+                <td><StatusBadge status={app.status} /></td>
+                <td className="td-secondary">{app.date_applied}</td>
+                <td>
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <Link to={`/applications/${app.id}`} className="btn" style={{ fontSize: '12px', padding: '4px 10px' }}>View</Link>
+                    <button className="btn" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => navigate(`/applications/${app.id}/edit`)}>Edit</button>
+                    <button className="btn btn-danger" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => handleDelete(app.id)}>Delete</button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }

@@ -46,76 +46,103 @@ export default function DashboardPage() {
     loadDashboard()
   }, [])
 
-  if (loading) return <p>Loading dashboard...</p>
-  if (error) return <p style={{ color: 'red' }}>{error}</p>
+  if (loading) return <p style={{ color: 'var(--text-secondary)' }}>Loading dashboard...</p>
+  if (error) return <p style={{ color: 'var(--danger-text)' }}>{error}</p>
 
   const statusData = Object.entries(statusBreakdown).map(([status, count]) => ({
     status,
     count
   }))
 
-    return (
-      <div>
-        <h1>Dashboard</h1>
-        {/* Stat Cards */}
-        <div style={{ display: 'flex', gap: '20px', marginBottom: '30px' }}>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-              <h3>Total Applications</h3>
-              <p style={{ fontSize: '2rem' }}>{successRate?.total}</p>
-          </div>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-              <h3>Success Rate</h3>
-              <p style={{ fontSize: '2rem' }}>{successRate?.successRate}%</p>
-          </div>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-              <h3>Response Rate</h3>
-              <p style={{ fontSize: '2rem' }}>{responseRate?.responseRate}%</p>
-          </div>
-          <div style={{ border: '1px solid #ccc', padding: '20px', borderRadius: '8px' }}>
-              <h3>Offers</h3>
-              <p style={{ fontSize: '2rem' }}>{successRate?.offers}</p>
-          </div>
+  const tooltipStyle = {
+    backgroundColor: 'var(--bg-secondary)',
+    border: '0.5px solid var(--border)',
+    color: 'var(--text-primary)',
+    borderRadius: '6px',
+    fontSize: '13px',
+  }
+
+  return (
+    <div>
+      <h1 className="page-title">Dashboard</h1>
+
+      <div className="stat-grid">
+        <div className="stat-card">
+          <div className="stat-label">Total Applications</div>
+          <div className="stat-value">{successRate?.total}</div>
         </div>
+        <div className="stat-card">
+          <div className="stat-label">Success Rate</div>
+          <div className="stat-value" style={{ color: 'var(--accent)' }}>{successRate?.successRate}%</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Response Rate</div>
+          <div className="stat-value" style={{ color: 'var(--accent)' }}>{responseRate?.responseRate}%</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Offers</div>
+          <div className="stat-value">{successRate?.offers}</div>
+        </div>
+      </div>
 
-        {/* Status Breakdown */}
-        <h2>Applications by Status</h2>
-        <ResponsiveContainer width ="100%" height={300}>
-          <BarChart data={statusData}>
-            <XAxis dataKey="status" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="count" fill="#0d6efd" />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div className="card-header">
+          <span className="card-title">Applications by Status</span>
+        </div>
+        <div className="card-body">
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={statusData}>
+              <XAxis dataKey="status" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={tooltipStyle} cursor={{ fill: 'var(--bg-tertiary)' }} />
+              <Bar dataKey="count" fill="var(--accent)" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-        {/* Applications per Week */}
-        <h2>Applications Per Week</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={perWeek}>
-            <XAxis dataKey="week" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" stroke="#198754" />
-          </LineChart>
-        </ResponsiveContainer>
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div className="card-header">
+          <span className="card-title">Applications Per Week</span>
+        </div>
+        <div className="card-body">
+          <ResponsiveContainer width="100%" height={260}>
+            <LineChart data={perWeek}>
+              <XAxis dataKey="week" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={tooltipStyle} />
+              <Line type="monotone" dataKey="count" stroke="var(--accent)" strokeWidth={2} dot={{ fill: 'var(--accent)', r: 3 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-        {/* Top Industries */}
-        <h2>Top Industries</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={industries}>
-            <XAxis dataKey="industry" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="count" fill="#fd7e14" />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="card" style={{ marginBottom: '24px' }}>
+        <div className="card-header">
+          <span className="card-title">Top Industries</span>
+        </div>
+        <div className="card-body">
+          <ResponsiveContainer width="100%" height={260}>
+            <BarChart data={industries}>
+              <XAxis dataKey="industry" tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fill: 'var(--text-secondary)', fontSize: 12 }} axisLine={false} tickLine={false} />
+              <Tooltip contentStyle={tooltipStyle} cursor={{ fill: 'var(--bg-tertiary)' }} />
+              <Bar dataKey="count" fill="#1D9E75" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-        {/* Upcoming Interviews */}
-        <h2>Upcoming Interviews (Next 7 Days)</h2>
+      <div className="card">
+        <div className="card-header">
+          <span className="card-title">Upcoming Interviews (Next 7 Days)</span>
+        </div>
         {upcoming.length === 0 ? (
-          <p>No upcoming interviews.</p>
+          <div className="card-body">
+            <p style={{ color: 'var(--text-secondary)' }}>No upcoming interviews.</p>
+          </div>
         ) : (
-          <table>
+          <table className="app-table">
             <thead>
               <tr>
                 <th>Role</th>
@@ -128,8 +155,8 @@ export default function DashboardPage() {
               {upcoming.map((round) => (
                 <tr key={round.id}>
                   <td>{round.Application?.role_title}</td>
-                  <td>{round.round_type}</td>
-                  <td>{new Date(round.scheduled_date).toLocaleDateString()}</td>
+                  <td className="td-secondary">{round.round_type}</td>
+                  <td className="td-secondary">{new Date(round.scheduled_date).toLocaleDateString()}</td>
                   <td>{round.outcome}</td>
                 </tr>
               ))}
@@ -137,5 +164,6 @@ export default function DashboardPage() {
           </table>
         )}
       </div>
-    )
+    </div>
+  )
   }

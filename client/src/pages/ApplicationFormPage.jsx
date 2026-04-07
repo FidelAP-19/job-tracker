@@ -71,90 +71,68 @@ export default function ApplicationFormPage() {
     }
     
     return (
-        <div>
-            <h1>{isEditing ? 'Edit Application' : 'New Application'}</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-
+      <div>
+        <h1 className="page-title">{isEditing ? 'Edit Application' : 'New Application'}</h1>
+  
+        <div className="card" style={{ maxWidth: '600px' }}>
+          <div className="card-body">
+            {error && <p style={{ color: 'var(--danger-text)', marginBottom: '16px' }}>{error}</p>}
+  
             <form onSubmit={handleSubmit}>
-        <div>
-          <label>Role Title</label>
-          <input
-            name="role_title"
-            value={formData.role_title}
-            onChange={handleChange}
-            required
-          />
+              <div className="form-group">
+                <label className="form-label">Role Title</label>
+                <input className="form-input" name="role_title" value={formData.role_title} onChange={handleChange} required />
+              </div>
+  
+              <div className="form-group">
+                <label className="form-label">Company</label>
+                <select className="form-select" name="company_id" value={formData.company_id} onChange={handleChange} required>
+                  <option value="">-- Select a Company --</option>
+                  {companies.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+  
+              <div className="form-group">
+                <label className="form-label">Status</label>
+                <select className="form-select" name="status" value={formData.status} onChange={handleChange}>
+                  <option>Applied</option>
+                  <option>Phone Screen</option>
+                  <option>Interview</option>
+                  <option>Offer</option>
+                  <option>Rejected</option>
+                  <option>Withdrawn</option>
+                </select>
+              </div>
+  
+              <div className="form-group">
+                <label className="form-label">Date Applied</label>
+                <input className="form-input" type="date" name="date_applied" value={formData.date_applied} onChange={handleChange} required />
+              </div>
+  
+              <div className="form-group">
+                <label className="form-label">Salary Estimate</label>
+                <input className="form-input" type="number" name="salary_estimate" value={formData.salary_estimate} onChange={handleChange} />
+              </div>
+  
+              <div className="form-group">
+                <label className="form-label">Notes</label>
+                <textarea className="form-textarea" name="notes" value={formData.notes} onChange={handleChange} />
+              </div>
+  
+              <div className="form-actions">
+                <button className="btn btn-primary" type="submit" disabled={loading}>
+                  {loading ? 'Saving...' : isEditing ? 'Update Application' : 'Create Application'}
+                </button>
+                <button className="btn" type="button" onClick={() => navigate('/applications')}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        <div>
-            <label>Company</label>
-            <select
-            name="company_id"
-            value={formData.company_id}
-            onChange={handleChange}
-            required
-            >
-                <option value="">-- Select a Company --</option>
-                {companies.map((c) => (
-                    <option key={c.id} value ={c.id}>
-                        {c.name}
-                    </option>
-                ))}
-            </select>
-        </div>
-
-        <div>
-            <label>Status</label>
-            <select name="status" value={formData.status} onChange={handleChange}>
-                <option>Applied</option>
-                <option>Phone Screen</option>
-                <option>Interview</option>
-                <option>Offer</option>
-                <option>Rejected</option>
-                <option>Withdrawn</option>
-            </select>
-        </div>
-        
-        <div>
-          <label>Date Applied</label>
-          <input
-            type="date"
-            name="date_applied"
-            value={formData.date_applied}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div>
-            <label>Salary Estimate</label>
-            <input 
-                type="number"
-                name="salary_estimate"
-                value={formData.salary_estimate}
-                onChange={handleChange}
-            />
-        </div>
-
-        <div>
-          <label>Notes</label>
-          <textarea
-            name="notes"
-            value={formData.notes}
-            onChange={handleChange}
-          />
-        </div>
-
-        <button type="submit" disabled={loading}>
-            {loading ? 'Saving...' : isEditing ? 'Update Application' : 'Create Application'}
-        </button>
-        {' | '}
-        <button type="button" onClick={() => navigate('/applications')}>
-          Cancel
-        </button>
-      </form>
-
-    </div>
+      </div>
     )
 
 }

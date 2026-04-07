@@ -35,18 +35,22 @@ function CompaniesPage() {
     }
   }
 
-  if (loading) return <p>Loading companies...</p>
-  if (error) return <p>{error}</p>
+  if (loading) return <p style={{ color: 'var(--text-secondary)', padding: '20px' }}>Loading companies...</p>
+  if (error) return <p style={{ color: 'var(--danger-text)', padding: '20px' }}>{error}</p>
     
 
 
-    return (
-      <div>
-        <h1>Companies</h1>
-        <button onClick={() => navigate('/companies/new')}>
-         + New Company
+  return (
+    <div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h1 className="page-title" style={{ margin: 0 }}>Companies</h1>
+        <button className="btn btn-primary" onClick={() => navigate('/companies/new')}>
+          + New Company
         </button>
-        <table>
+      </div>
+
+      <div className="card">
+        <table className="app-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -59,21 +63,22 @@ function CompaniesPage() {
             {companies.map(com => (
               <tr key={com.id}>
                 <td>{com.name}</td>
-                <td>{com.industry}</td>
-                <td>{com.website}</td>
+                <td className="td-secondary">{com.industry}</td>
+                <td className="td-secondary">{com.website}</td>
                 <td>
-                  <Link to={`/companies/${com.id}`}>View</Link>
-                  {' | '}
-                  <button type="button" onClick={() => navigate(`/companies/${com.id}/edit`)}>Edit</button>
-                  {' | '}
-                  <button onClick={() => handleDelete(com.id)}>Delete</button>
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <Link to={`/companies/${com.id}`} className="btn" style={{ fontSize: '12px', padding: '4px 10px' }}>View</Link>
+                    <button className="btn" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => navigate(`/companies/${com.id}/edit`)}>Edit</button>
+                    <button className="btn btn-danger" style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => handleDelete(com.id)}>Delete</button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    )
+    </div>
+  )
   }
 
   export default CompaniesPage;
