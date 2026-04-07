@@ -23,7 +23,9 @@ app.get('/', (req, res) => {
 });
 
 // Mount routers — every route in applicationRoutes is prefixed with /api/applications
-app.use(cors({ origin: 'http://localhost:5173' })); 
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || '*'
+  }))
 app.use('/api/applications', applicationRoutes);
 app.use('/api/companies', companyRoutes); 
 app.use('/api/interview-rounds', interviewRoundRoutes);
